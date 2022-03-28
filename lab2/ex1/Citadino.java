@@ -6,12 +6,12 @@ public class Citadino extends Carro {
         System.out.println("AC	ligado!");
     }
 
-    @Override
-    public	void buzinar()	{
-        toString();
-        System.out.println("Buzina	do	citadino");
-        super.buzinar();
-    }
+//    @Override
+//    public	void buzinar()	{
+//        toString();
+//        System.out.println("Buzina	do	citadino");
+//        super.buzinar();
+//    }
 
     @Override
     public String toString() {
