@@ -59,3 +59,5 @@ public class Carro implements Buzina{
         Interpretação do exercício 4: como a classe implementa a interface, fica neste caso obrigada a implementar os métodos
         definidos na mesma, o que não é o caso.
         */
+
+// O artur fez este exercíco
