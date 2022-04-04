@@ -20,6 +20,7 @@ class Counter implements Runnable {
                 e.printStackTrace();
             }
         }
+        System.out.println("End of: " + Thread.currentThread().getName() );
     }
 }
 
@@ -28,8 +29,11 @@ public class Ex5 {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
+        System.out.print("Num1: ");
         Counter c1 = new Counter(scanner.nextInt(), 1000);
+        System.out.print("Num2: ");
         Counter c2 = new Counter(scanner.nextInt(), 500);
+        System.out.print("Num3: ");
         Counter c3 = new Counter(scanner.nextInt(), 250);
 
         Thread t1 = new Thread(c1);
