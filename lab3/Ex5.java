@@ -20,9 +20,10 @@ class Counter implements Runnable {
                 e.printStackTrace();
             }
         }
-        System.out.println("End of: " + Thread.currentThread().getName() );
+        System.out.println( "End of: " + Thread.currentThread().getName() );
     }
 }
+
 
 public class Ex5 {
 
@@ -45,6 +46,19 @@ public class Ex5 {
         Thread t3 = new Thread(c3);
         t3.start();
 
+        Thread running = new Thread(() -> {
+            while(t1.isAlive() || t2.isAlive() || t3.isAlive()) {
+                try {
+                    Thread.sleep(350);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            System.out.println("End of Countdown.");
+        });
+        running.start();
+
     }
+
 
 }
