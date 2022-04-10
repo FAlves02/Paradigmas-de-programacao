@@ -1,5 +1,8 @@
+// feito por artur
+
 import java.util.Timer;
 import java.util.TimerTask;
+
 
 public class Ex3 extends TimerTask {
     String nome;

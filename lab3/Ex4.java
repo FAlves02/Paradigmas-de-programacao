@@ -1,5 +1,5 @@
-import java.util.Timer;
-import java.util.TimerTask;
+// feito por enzo
+
 
 public class Ex4 extends Thread {
     String nome;
@@ -50,6 +50,5 @@ public class Ex4 extends Thread {
         }
         System.out.println("Peças do pedro: " + pedro.getPecasProduzidas() + " Peças do manunel: " + manuel.getPecasProduzidas());
 
-        System.out.println("Main terminado.");
     }
 }

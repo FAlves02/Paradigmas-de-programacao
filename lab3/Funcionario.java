@@ -9,7 +9,7 @@ public class Funcionario extends Thread {
         this.delay = delay;
     }
 
-    public void run() {
+    public void trabalhar() {
         System.out.println(nome + " - Comecei.");
         while (pecasProduzidas < TOTAL_PECAS) {
             try {
@@ -22,19 +22,10 @@ public class Funcionario extends Thread {
         System.out.println(nome + " -Terminei.");
     }
 
-
-    public static void main(String[] args) {
-
-
-        Funcionario manuel = new Funcionario("Manuel", 3000);
-        Funcionario pedro = new Funcionario("\tPedro", 5000);
-
-        Thread t1 = new Thread(manuel);
-        t1.start();
-
-        Thread t2 = new Thread(pedro);
-        t2.start();
-
-        System.out.println("Main terminado.");
+    @Override
+    public void run() {
+        trabalhar();
     }
+
+
 }

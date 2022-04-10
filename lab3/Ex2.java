@@ -1,15 +1,17 @@
-public class Ex2 extends Thread implements Runnable{
+// feito por enzo
+
+class Func implements Runnable {
     String nome;
     int delay;
     int pecasProduzidas = 0;
     static int TOTAL_PECAS = 50;
 
-    public Ex2(String nome, int delay) {
+    public Func(String nome, int delay) {
         this.nome = nome;
         this.delay = delay;
     }
 
-    public void run() {
+    public void trabalhar() {
         System.out.println(nome + " - Comecei.");
         while (pecasProduzidas < TOTAL_PECAS) {
             try {
@@ -22,19 +24,23 @@ public class Ex2 extends Thread implements Runnable{
         System.out.println(nome + " -Terminei.");
     }
 
-
-    public static void main(String[] args) {
-
-
-        Funcionario manuel = new Funcionario("Manuel", 3000);
-        Funcionario pedro = new Funcionario("\tPedro", 5000);
-
-        Thread t1 = new Thread(manuel);
-        t1.start();
-
-        Thread t2 = new Thread(pedro);
-        t2.start();
-
-        System.out.println("Main terminado.");
+    @Override
+    public void run() {
+        trabalhar();
     }
+
+
 }
+
+public class Ex2 {
+    public static void main(String[] args) {
+        Func manuel = new Func("Manuel", 3000);
+        Func pedro = new Func("Pedro", 5000);
+        Thread threadManuel = new Thread(manuel);
+        threadManuel.start();
+        Thread threadPedro = new Thread(pedro);
+        threadPedro.start();
+    }
+
+}
+
