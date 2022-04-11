@@ -2,14 +2,14 @@ package com;
 
 import javax.swing.*;
 
-public class Cronometer extends Thread {
+public class CronoThread extends Thread {
 
     private int hh;
     private int mm;
     private int ss;
     private JLabel textLabel;
 
-    public Cronometer(JLabel textLabel) {
+    public CronoThread(JLabel textLabel) {
         reset();
         this.textLabel = textLabel;
     }

@@ -13,17 +13,17 @@ public class Crono {
     private JButton pauseBtn;
     private JButton resetbtn;
 
-    private Cronometer cronometer;
+    private CronoThread cronometer;
 
     public Crono() {
 
-        cronometer = new Cronometer(textLabel);
+        cronometer = new CronoThread(textLabel);
 
         startBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(cronometer.getState() == Thread.State.TERMINATED) {
-                    cronometer = new Cronometer(textLabel);
+                    cronometer = new CronoThread(textLabel);
                 }
                 cronometer.start();
             }
