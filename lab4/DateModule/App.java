@@ -1,14 +1,13 @@
-package DateModule;
 
 import java.util.Scanner;
 
 class Menu extends Thread {
 
     private Scanner scanner = new Scanner(System.in);
-    private Crono cronoThread;
+    private DateModule.Crono cronoThread;
 
     public Menu() {
-        this.cronoThread = new Crono();
+        this.cronoThread = new DateModule.Crono();
     }
 
     @Override

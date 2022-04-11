@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Crono crono = new Crono();
+        CalendarModule.Crono crono = new CalendarModule.Crono();
         while(true) {
             System.out.print("Input: ");
             String input = scanner.nextLine();
