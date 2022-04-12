@@ -3,7 +3,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.util.Hashtable;
 
+
 public class Map {
+
+    private static final String googleApiKey = "AIzaSyC5Y8gb3jOe7Jw2BAElFoV80uGpuFEbzbE";
 
     private JPanel mainPanel;
     private JPanel headerPanel;
@@ -13,8 +16,10 @@ public class Map {
     private JLabel infoLabel;
     private JSlider xSlider;
     private JSlider ySlider;
+    private JLabel mapLabel;
 
     public Map() {
+        addGoogleMapImage();
         addSlidersDetails(0,300, xSlider);
         addSlidersDetails(0,600, ySlider);
     }
@@ -47,6 +52,10 @@ public class Map {
     private void updateLabel() {
         String text = "x: " + xSlider.getValue() + " y:" + ySlider.getValue();
         infoLabel.setText(text);
+    }
+
+    private void addGoogleMapImage() {
+
     }
 
 }
