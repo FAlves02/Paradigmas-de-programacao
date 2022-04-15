@@ -10,6 +10,7 @@ import com.dlsc.gmapsfx.service.directions.DirectionsResult;
 import com.dlsc.gmapsfx.service.directions.DirectionsServiceCallback;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,6 +26,7 @@ public class MapFXMLController implements Initializable, MapComponentInitialized
 
     @FXML
     protected GoogleMapView mapView;
+
     private static GoogleMap map;
     private static Marker marker;
     private static LatLong markerPosition;
