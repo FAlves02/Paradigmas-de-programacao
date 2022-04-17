@@ -1,6 +1,7 @@
 package com.ual.geolocatordemo;
 
 import com.dlsc.gmapsfx.javascript.object.LatLong;
+import com.ual.geolocatordemo.controller.MapFXMLController;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

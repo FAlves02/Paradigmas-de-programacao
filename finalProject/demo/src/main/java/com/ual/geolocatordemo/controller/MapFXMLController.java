@@ -1,4 +1,4 @@
-package com.ual.geolocatordemo;
+package com.ual.geolocatordemo.controller;
 
 import com.dlsc.gmapsfx.GoogleMapView;
 import com.dlsc.gmapsfx.MapComponentInitializedListener;
@@ -8,28 +8,31 @@ import com.dlsc.gmapsfx.javascript.object.*;
 import com.dlsc.gmapsfx.service.directions.DirectionStatus;
 import com.dlsc.gmapsfx.service.directions.DirectionsResult;
 import com.dlsc.gmapsfx.service.directions.DirectionsServiceCallback;
+import com.ual.geolocatordemo.model.Data;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ResourceBundle;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class MapFXMLController implements Initializable, MapComponentInitializedListener, DirectionsServiceCallback {
 
-    private static String geocodingUrl = "https://api.bigdatacloud.net/data/reverse-geocode-client?localityLanguage=pt";
+    private static String apiServerUrl = "https://api.bigdatacloud.net/data/reverse-geocode-client?localityLanguage=pt";
 
     @FXML
     protected GoogleMapView mapView;
 
     private static GoogleMap map;
     private static Marker marker;
-    private static LatLong markerPosition;
+    private static LatLong currentMarkerPosition;
 
 
     @Override
@@ -54,9 +57,9 @@ public class MapFXMLController implements Initializable, MapComponentInitialized
 
         map = mapView.createMap(options,false);
         map.addMouseEventHandler(UIEventType.click, (GMapMouseEvent event) -> {
-            getMapInfo(markerPosition);
+            Data data = getMapInfo(currentMarkerPosition);
             InfoWindowOptions infoOptions = new InfoWindowOptions();
-            infoOptions.content("<h2>Here's an info window</h2><h3>with some info</h3>");
+            infoOptions.content(data.getHtmlPage(currentMarkerPosition));
             InfoWindow window = new InfoWindow(infoOptions);
             window.open(map, marker);
         });
@@ -69,45 +72,42 @@ public class MapFXMLController implements Initializable, MapComponentInitialized
         Moptions .visible(true);
         LatLong initialMarkerPosition = new LatLong(36.9715223, -9.2428545);
         Moptions.position(initialMarkerPosition);
-        markerPosition = initialMarkerPosition;
+        currentMarkerPosition = initialMarkerPosition;
         marker = new Marker(Moptions);
         map.addMarker(marker);
     }
 
     public static void UpdateMarker(LatLong latLong){
-        markerPosition = latLong;
+        currentMarkerPosition = latLong;
         marker.setPosition(latLong);
     }
 
-    public String[] getMapInfo(LatLong latLong) {
-        URL yahoo = null;
-        int cnt=0;
-        String[] details = new String[4];
+    public Data getMapInfo(LatLong latLong)   {
+        Data data = new Data();
         try {
-            yahoo = new URL(geocodingUrl + "&latitude=" + latLong.getLatitude() + "&longitude=" + latLong.getLongitude());
-            URLConnection yc = yahoo.openConnection();
-            BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
-            String inputLine;
+            URL url = new URL(apiServerUrl +  "&latitude=" + latLong.getLatitude() + "&longitude=" + latLong.getLongitude());
+            HttpURLConnection request = (HttpURLConnection) url.openConnection();
+            request.setDoOutput(true);
+            request.setRequestMethod("GET");
+            request.connect();
 
-            while ((inputLine = in.readLine()) != null)
-                try {
-                    System.out.println(inputLine);
-                    if(inputLine.substring(9,13).equals("name")){
-                        details[cnt]=inputLine.substring(17,inputLine.length()-2);
-//                        System.out.println(inputLine.substring(17,inputLine.length()-2));
-                        cnt++;
-                    }
-                }
-            catch (Exception ex){
-                    continue;
-            }
-            in.close();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+            String apiResponse = "";
+            BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
+            String inputLine;
+            while ((inputLine = reader.readLine()) != null) apiResponse += inputLine;
+
+            JSONParser parser = new JSONParser();
+            JSONObject obj = (JSONObject) parser.parse(apiResponse);
+
+            data = new Data();
+            data.setCity((String) obj.get("city"));
+            data.setCountryName((String) obj.get("countryName"));
+            data.setLocality((String) obj.get("locality"));
+
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
-        return details;
+        return data;
     }
 
 }
