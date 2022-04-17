@@ -11,6 +11,9 @@ import com.dlsc.gmapsfx.service.directions.DirectionsServiceCallback;
 import com.ual.geolocatordemo.model.Data;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,10 +21,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 public class MapFXMLController implements Initializable, MapComponentInitializedListener, DirectionsServiceCallback {
 
@@ -55,7 +54,7 @@ public class MapFXMLController implements Initializable, MapComponentInitialized
                 .zoomControl(false)
                 .mapType(MapTypeIdEnum.ROADMAP);
 
-        map = mapView.createMap(options,false);
+        map = mapView.createMap(options, false);
         map.addMouseEventHandler(UIEventType.click, (GMapMouseEvent event) -> {
             Data data = getMapInfo(currentMarkerPosition);
             InfoWindowOptions infoOptions = new InfoWindowOptions();
@@ -67,25 +66,27 @@ public class MapFXMLController implements Initializable, MapComponentInitialized
     }
 
 
-    public void addMarker(GoogleMap map){
+    public void addMarker(GoogleMap map) {
         MarkerOptions Moptions = new MarkerOptions();
-        Moptions .visible(true);
         LatLong initialMarkerPosition = new LatLong(36.9715223, -9.2428545);
-        Moptions.position(initialMarkerPosition);
+        Moptions.position(initialMarkerPosition)
+                .visible(true)
+                .title("My new Marker")
+                .animation(Animation.DROP);
         currentMarkerPosition = initialMarkerPosition;
         marker = new Marker(Moptions);
         map.addMarker(marker);
     }
 
-    public static void UpdateMarker(LatLong latLong){
+    public static void UpdateMarker(LatLong latLong) {
         currentMarkerPosition = latLong;
         marker.setPosition(latLong);
     }
 
-    public Data getMapInfo(LatLong latLong)   {
+    public Data getMapInfo(LatLong latLong) {
         Data data = new Data();
         try {
-            URL url = new URL(apiServerUrl +  "&latitude=" + latLong.getLatitude() + "&longitude=" + latLong.getLongitude());
+            URL url = new URL(apiServerUrl + "&latitude=" + latLong.getLatitude() + "&longitude=" + latLong.getLongitude());
             HttpURLConnection request = (HttpURLConnection) url.openConnection();
             request.setDoOutput(true);
             request.setRequestMethod("GET");

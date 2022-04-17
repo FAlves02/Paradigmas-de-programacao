@@ -3,6 +3,8 @@ package com.ual.geolocatordemo.model;
 
 import com.dlsc.gmapsfx.javascript.object.LatLong;
 
+import java.text.DecimalFormat;
+
 // contains data returned by external API
 public class Data {
 
@@ -44,10 +46,10 @@ public class Data {
                 "    <p><b>City: </b>" + getCity() +  "  </p>\n" +
                 "    <p><b>Locality: </b> " + getLocality() + "  </p>\n" +
                 "\n" +
-                "    <p>Lat: " + latLong.getLatitude() + " </p>\n" +
-                "    <p>Long: " + latLong.getLongitude() + " </p>\n" +
+                "    <p>Lat: " + new DecimalFormat("#.#####").format(latLong.getLatitude()) + " </p>\n" +
+                "    <p>Long: " + new DecimalFormat("#.#####").format(latLong.getLongitude()) + " </p>\n" +
                 "\n" +
-                "    </body>\n" +
+                "    </body>  \n" +
                 "</html>";
     }
 
